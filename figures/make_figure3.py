@@ -1,11 +1,14 @@
-"""Figure 3. Ranked AUROC on NbBench PolyRx test set.
+"""Figure 3. Ranked AUROC and AUPRC on NbBench PolyRx test set.
 
-Our three linear hand-crafted-feature models versus all 11 language models from
-NbBench Table 10. Our 13-feature CDR-only Model 1 ranks 4th of 15, with 14 trainable
-parameters versus 15M-650M backbone parameters for the language models.
+Two-panel figure: (A) Test AUROC and (B) Test AUPRC. Rows sorted by AUROC (same
+order in both panels). Our four linear hand-crafted-feature models versus all 11
+language models from NbBench Table 10.
 
-Data source: notebooks/06_robustness_matrix.ipynb cell 23 (final ranking table).
+Data source: notebooks/06_robustness_matrix.ipynb (AUROC/AUPRC by model and dataset),
+notebooks/04_feature_climb_extended.ipynb (Full 16-feat AUPRC 0.8387),
+notebooks/07_model1_exact_metrics.ipynb (Model 1 AUPRC 0.8364).
 """
+from pathlib import Path
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
@@ -18,25 +21,25 @@ plt.rcParams.update({
     'axes.spines.right': False,
 })
 
-# (name, AUROC, category, size_label)
-# Ordered by AUROC (descending)
+# (name, AUROC, AUPRC, category, size_label)
+# Ordered by AUROC (descending) — same row order in both panels per legend
 rows = [
-    ('ESM-2 (650M)',                                  0.842, 'lm',    '650M'),
-    ('ProtBert',                                      0.837, 'lm',    '420M'),
-    ('Full 16-feat forward-selected LR',              0.836, 'ours',  '17'),
-    ('Model 1: 13-feat CDR-only LR',                  0.834, 'ours1', '14'),
-    ('ESM-2 (150M)',                                  0.833, 'lm',    '150M'),
-    ('AntiBERTa2',                                    0.833, 'lm',    '203M'),
-    ('AbLang-H',                                      0.831, 'lm',    '86M'),
-    ('AntiBERTa2-CSSP',                               0.830, 'lm',    '202M'),
-    ('Model 2: 21-feat Boughter pre-specified',       0.829, 'ours',  '22'),
-    ('IgBert',                                        0.829, 'lm',    '420M'),
-    ('AntiBERTy',                                     0.828, 'lm',    '26M'),
-    ('AbLang-L',                                      0.819, 'lm',    '86M'),
-    ('VHHBERT',                                       0.818, 'lm',    '86M'),
-    ('Model 3: 12-feat leave-NbBench-out LR',         0.817, 'ours',  '13'),
-    ('NanoBERT',                                      0.815, 'lm',    '15M'),
-    ('Model 4: H3-charge zero-training',              0.726, 'ours',  '0'),
+    ('ESM-2 (650M)',                                  0.842, 0.847, 'lm',    '650M'),
+    ('ProtBert',                                      0.837, 0.844, 'lm',    '420M'),
+    ('Full 16-feat forward-selected LR',              0.836, 0.8387, 'ours',  '17'),
+    ('Model 1: 13-feat CDR-only LR',                  0.834, 0.8364, 'ours1', '14'),
+    ('ESM-2 (150M)',                                  0.833, 0.840, 'lm',    '150M'),
+    ('AntiBERTa2',                                    0.833, 0.840, 'lm',    '203M'),
+    ('AbLang-H',                                      0.831, 0.839, 'lm',    '86M'),
+    ('AntiBERTa2-CSSP',                               0.830, 0.838, 'lm',    '202M'),
+    ('Model 2: 21-feat literature-specified',         0.829, 0.8301, 'ours',  '22'),
+    ('IgBert',                                        0.829, 0.836, 'lm',    '420M'),
+    ('AntiBERTy',                                     0.828, 0.835, 'lm',    '26M'),
+    ('AbLang-L',                                      0.819, 0.823, 'lm',    '86M'),
+    ('VHHBERT',                                       0.818, 0.823, 'lm',    '86M'),
+    ('Model 3: 12-feat leave-NbBench-out LR',         0.817, 0.8170, 'ours',  '13'),
+    ('NanoBERT',                                      0.815, 0.823, 'lm',    '15M'),
+    ('Model 4: H3-charge zero-training',              0.726, 0.7206, 'ours',  '0'),
 ]
 
 color_map = {
@@ -46,54 +49,69 @@ color_map = {
 }
 
 names  = [r[0] for r in rows]
-aucs   = [r[1] for r in rows]
-cats   = [r[2] for r in rows]
-sizes  = [r[3] for r in rows]
+aurocs = [r[1] for r in rows]
+auprcs = [r[2] for r in rows]
+cats   = [r[3] for r in rows]
+sizes  = [r[4] for r in rows]
 colors = [color_map[c] for c in cats]
 
-fig, ax = plt.subplots(figsize=(8.2, 6.2))
+fig, (axA, axB) = plt.subplots(1, 2, figsize=(14.5, 6.5), sharey=True)
 
 y_pos = list(range(len(rows)))[::-1]
-bars = ax.barh(y_pos, aucs, color=colors, edgecolor='black', linewidth=0.4, height=0.78)
 
-# Annotate AUROC + params
-for i, (bar, auc, size, cat) in enumerate(zip(bars, aucs, sizes, cats)):
+# ===== Panel A: AUROC =====
+barsA = axA.barh(y_pos, aurocs, color=colors, edgecolor='black', linewidth=0.4, height=0.78)
+
+for bar, val, size, cat in zip(barsA, aurocs, sizes, cats):
     weight = 'bold' if cat == 'ours1' else 'normal'
-    ax.text(auc + 0.002, bar.get_y() + bar.get_height() / 2,
-            f'{auc:.3f}', va='center', fontsize=8.5, fontweight=weight)
-    # Size label next to AUROC
-    size_text = f'  ({size} params)' if size != '0' else '  (zero-training)'
-    ax.text(auc + 0.013, bar.get_y() + bar.get_height() / 2,
-            size_text, va='center', fontsize=7.5, style='italic',
-            color='#555555')
+    axA.text(val + 0.0015, bar.get_y() + bar.get_height() / 2,
+             f'{val:.3f}', va='center', fontsize=8.5, fontweight=weight)
+    size_text = f'  ({size} p)' if size != '0' else '  (zero-train)'
+    axA.text(val + 0.010, bar.get_y() + bar.get_height() / 2,
+             size_text, va='center', fontsize=7.2, style='italic', color='#555555')
 
-ax.set_yticks(y_pos)
-ax.set_yticklabels(names, fontsize=9)
-
-# Bold Model 1's label
-for label, cat in zip(ax.get_yticklabels(), cats):
+axA.set_yticks(y_pos)
+axA.set_yticklabels(names, fontsize=9)
+for label, cat in zip(axA.get_yticklabels(), cats):
     if cat == 'ours1':
         label.set_fontweight('bold')
         label.set_color(color_map['ours1'])
 
-ax.set_xlim(0.70, 0.88)
-ax.set_xlabel('Test AUROC on NbBench PolyRx (n = 24,955); model size in italics')
-ax.set_title('Ranked performance: hand-crafted features vs. 11 pretrained language models',
-             fontsize=11, pad=8)
-ax.grid(alpha=0.2, axis='x', linestyle='--')
+axA.set_xlim(0.70, 0.88)
+axA.set_xlabel('Test AUROC on NbBench PolyRx (n = 24,955)')
+axA.set_title('(A) AUROC', fontsize=11, pad=8, loc='left', fontweight='bold')
+axA.grid(alpha=0.2, axis='x', linestyle='--')
 
-# Legend
+# ===== Panel B: AUPRC =====
+barsB = axB.barh(y_pos, auprcs, color=colors, edgecolor='black', linewidth=0.4, height=0.78)
+
+for bar, val, cat in zip(barsB, auprcs, cats):
+    weight = 'bold' if cat == 'ours1' else 'normal'
+    axB.text(val + 0.0015, bar.get_y() + bar.get_height() / 2,
+             f'{val:.3f}', va='center', fontsize=8.5, fontweight=weight)
+
+axB.set_xlim(0.70, 0.88)
+axB.set_xlabel('Test AUPRC on NbBench PolyRx (n = 24,955)')
+axB.set_title('(B) AUPRC', fontsize=11, pad=8, loc='left', fontweight='bold')
+axB.grid(alpha=0.2, axis='x', linestyle='--')
+
+# Shared legend at the bottom
 legend_patches = [
     mpatches.Patch(color=color_map['ours1'], label='Our primary model (13-feat CDR-only)'),
     mpatches.Patch(color=color_map['ours'],  label='Our other linear models'),
     mpatches.Patch(color=color_map['lm'],    label='NbBench language models'),
 ]
-ax.legend(handles=legend_patches, loc='upper center',
-          bbox_to_anchor=(0.5, -0.08), ncol=3,
-          fontsize=9, frameon=True, framealpha=0.95)
+fig.legend(handles=legend_patches, loc='lower center',
+           bbox_to_anchor=(0.5, -0.02), ncol=3,
+           fontsize=9, frameon=True, framealpha=0.95)
 
-plt.tight_layout()
-plt.savefig('/home/claude/polyatlas-peds/figures/figure3_comparison.png',
-            dpi=300, bbox_inches='tight')
+fig.suptitle('Ranked performance: hand-crafted features vs. 11 pretrained language models',
+             fontsize=12, y=0.995)
+plt.tight_layout(rect=[0, 0.04, 1, 0.97])
+
+# Save relative to the script's own directory (portable)
+out_dir = Path(__file__).resolve().parent
+plt.savefig(out_dir / 'figure3_comparison.png', dpi=300, bbox_inches='tight')
+plt.savefig(out_dir / 'figure3.pdf', bbox_inches='tight')
 plt.close()
-print('Figure 3 saved.')
+print(f'Figure 3 saved to {out_dir}/figure3_comparison.png and figure3.pdf')

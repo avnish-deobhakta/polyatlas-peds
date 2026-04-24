@@ -8,6 +8,7 @@ selected). All climbs start from H3_charge alone. Y-axis: validation AUROC at ea
 Data source: notebooks/05_cdr_only_climb.ipynb cell 11 (climb logs) and cell 13 (final
 test AUROCs).
 """
+from pathlib import Path
 import matplotlib.pyplot as plt
 
 plt.rcParams.update({
@@ -85,7 +86,8 @@ ax.set_title('Forward-selection climb: full, CDR-only, CDR-H3-only pools',
              fontsize=11, pad=8)
 
 plt.tight_layout()
-plt.savefig('/home/claude/polyatlas-peds/figures/figure1_climb.png',
-            dpi=300, bbox_inches='tight')
+out_dir = Path(__file__).resolve().parent
+plt.savefig(out_dir / 'figure1_climb.png', dpi=300, bbox_inches='tight')
+plt.savefig(out_dir / 'figure1.pdf', bbox_inches='tight')
 plt.close()
 print('Figure 1 saved.')

@@ -42,7 +42,7 @@ Baseline positive-class rate (precision at recall 1.0): 0.539.
 | H3_len | CDR-H3 | Length in amino acids |
 | H3_neg_frac | CDR-H3 | Fraction of negatively charged residues (D+E) |
 | H3_R | CDR-H3 | Fraction of arginine |
-| H3_charge_dipole | CDR-H3 | Signed charge centroid × length (captures whether positive charge is at N- or C-terminus of the loop) |
+| H3_charge_dipole | CDR-H3 | Charge dipole: net charge of the N-terminal half of the CDR-H3 minus the net charge of the C-terminal half. Captures whether positive charge is skewed toward the N- or C-terminal end of the loop. |
 
 CDRs are extracted using ANARCI with IMGT numbering. For exact feature-computation code, see §1 of any of notebooks 03–07 (they share one feature catalog).
 

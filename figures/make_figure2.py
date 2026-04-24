@@ -6,6 +6,7 @@ electrostatic dominance: the top 10 features are all charge-related.
 
 Data source: notebooks/03_feature_climb_full.ipynb cell 7 (univariate table).
 """
+from pathlib import Path
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
@@ -97,7 +98,8 @@ ax.legend(handles=legend_patches, loc='lower right', fontsize=9,
           frameon=True, framealpha=0.95, title='Property category', title_fontsize=9)
 
 plt.tight_layout()
-plt.savefig('/home/claude/polyatlas-peds/figures/figure2_univariate.png',
-            dpi=300, bbox_inches='tight')
+out_dir = Path(__file__).resolve().parent
+plt.savefig(out_dir / 'figure2_univariate.png', dpi=300, bbox_inches='tight')
+plt.savefig(out_dir / 'figure2.pdf', bbox_inches='tight')
 plt.close()
 print('Figure 2 saved.')

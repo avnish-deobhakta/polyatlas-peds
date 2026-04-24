@@ -8,6 +8,7 @@ lowers it. Intercept = -0.0523 (not shown).
 
 Data source: notebooks/07_model1_exact_metrics.ipynb cell 7 / models/model1_coefficients.csv.
 """
+from pathlib import Path
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
@@ -81,7 +82,8 @@ ax.text(0.98, -0.12, 'Intercept = −0.0523', transform=ax.transAxes,
         fontsize=8.5, style='italic', ha='right', color='#555555')
 
 plt.tight_layout()
-plt.savefig('/home/claude/polyatlas-peds/figures/figure4_coefficients.png',
-            dpi=300, bbox_inches='tight')
+out_dir = Path(__file__).resolve().parent
+plt.savefig(out_dir / 'figure4_coefficients.png', dpi=300, bbox_inches='tight')
+plt.savefig(out_dir / 'figure4.pdf', bbox_inches='tight')
 plt.close()
 print('Figure 4 saved.')
