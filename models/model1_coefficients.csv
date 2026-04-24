@@ -1,0 +1,15 @@
+feature,standardized_coefficient,train_mean,train_std,direction
+H3_charge,0.1049,0.0248,1.9620,predicts_polyreactive
+H2_charge,0.7971,0.4178,0.9881,predicts_polyreactive
+H1_charge,0.3508,0.4139,0.8480,predicts_polyreactive
+H2_len,0.4089,8.6785,0.6278,predicts_polyreactive
+H3_len,-0.3275,14.0503,3.0074,predicts_nonpolyreactive
+H1_arom,0.2564,0.2702,0.1191,predicts_polyreactive
+H3_arom,0.1887,0.2750,0.1045,predicts_polyreactive
+H3_neg_frac,-0.6095,0.1109,0.0836,predicts_nonpolyreactive
+H3_R,0.3791,0.0850,0.0792,predicts_polyreactive
+H3_abs_charge,0.2432,1.5753,1.1698,predicts_polyreactive
+H2_hphob_frac,-0.1261,0.1650,0.0685,predicts_nonpolyreactive
+H3_charge_dipole,0.1129,0.7450,1.5794,predicts_polyreactive
+H1_hphob,0.0253,0.1337,0.7140,predicts_polyreactive
+_intercept,-0.0523,,,

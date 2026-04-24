@@ -1,0 +1,37 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Raw data — not redistributed; each user obtains from original sources per data/README.md
+data/raw/
+data/processed/
+data/*.pkl
+data/*.npy
+
+# Intermediate outputs from running notebooks locally
+output/
+outputs/
+tmp/
+
+# Packaging
+*.egg-info/
+build/
+dist/
