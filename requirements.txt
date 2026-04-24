@@ -9,8 +9,8 @@ datasets>=2.14
 huggingface-hub>=0.17
 
 # Antibody-specific
-anarci>=1.3         # Only needed for notebook 01 (Harvey ingestion)
-ablang>=0.3.1       # Only needed for notebook 01 (AbLang embedding)
+anarci>=1.3
+ablang>=0.3.1
 
 # Plotting (for figure regeneration scripts)
 matplotlib>=3.7
@@ -20,5 +20,5 @@ seaborn>=0.12
 jupyter>=1.0
 ipykernel>=6.25
 
-# Optional — recommended for progress bars and nicer table display
+# Progress bars
 tqdm>=4.66

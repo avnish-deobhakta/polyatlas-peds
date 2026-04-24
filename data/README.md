@@ -8,7 +8,10 @@ This repository does not redistribute raw data. Each dataset is obtained from it
 
 **Source:** `ZYMScott/polyreaction` on Hugging Face
 **Paper:** Zhang Y, Tsuda K. *NbBench: Benchmarking Language Models for Comprehensive Nanobody Tasks.* arXiv:2505.02022, 2025.
-**Size:** 141,474 rows across 3 splits — train 101,854 / validation 14,576 / test 24,955 (note: earlier drafts cited 102k/14.6k/25k from the HF viewer; exact counts used in our analysis are shown in each notebook's §1 loading cell)
+
+**Published split sizes** (as released by NbBench): 141,474 rows total — train 101,854 / validation 14,613 / test 25,007.
+**Sizes used in our analysis** (after excluding rows with empty gap-removed CDR-H3 annotations): 141,204 rows — train 101,673 / validation 14,576 / test 24,955. The 270 excluded rows (0.19 % of the benchmark) are addressed as a caveat in Section 2.1 and the Limitations section of the manuscript.
+
 **Ground truth:** Harvey 2022 high/low PSR pool labels
 **Split strategy:** MMseqs2 clustering at 70% sequence identity
 
@@ -59,18 +62,10 @@ Save to `data/raw/shehata_2019/mmc2.xlsx`.
 
 ---
 
-## 5. Jain 2017 (clinical IgG PSR)
+## 5. Jain 2017 (clinical-stage mAbs)
 
 **Source:** Supplementary Dataset S1 of Jain et al. 2017
 **Paper:** Jain T, Sun T, et al. *Biophysical properties of the clinical-stage antibody landscape.* PNAS 114(5), 944–949 (2017).
-**File needed:** The clinical-stage antibody biophysical dataset with PSR column (137 antibodies).
+**File needed:** `pnas.1616408114.sd01.xlsx`
 
-Save under `data/raw/jain_2017/`.
-
----
-
-## Licensing and redistribution
-
-Each source dataset has its own license and terms of reuse. We do not redistribute any raw sequence data in this repository; users should obtain each dataset from its original source following its stated license.
-
-The NbBench PolyRx dataset on Hugging Face is the only dataset we load programmatically, and it is publicly available under the terms stated on its Hugging Face page.
+Save to `data/raw/jain_2017/`.

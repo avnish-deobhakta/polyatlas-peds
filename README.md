@@ -3,7 +3,7 @@
 Code and data for the manuscript:
 
 **Hand-crafted physicochemical features approach pretrained language model performance for nanobody polyreactivity prediction on the NbBench benchmark.**
-Deobhakta A, Quiroz J, Jaipalli S, Rosen RB. *Protein Engineering, Design and Selection*, submitted 2026.
+Deobhakta A, Quiroz J, Jaipalli S, Rosen RB. Manuscript in preparation (target journal: *Protein Engineering, Design and Selection*).
 
 Correspondence: `adeobhakta@nyee.edu`
 
@@ -99,5 +99,5 @@ If you use this code or Model 1 in your work, please cite:
 ```
 Deobhakta A, Quiroz J, Jaipalli S, Rosen RB. Hand-crafted physicochemical features approach
 pretrained language model performance for nanobody polyreactivity prediction on the
-NbBench benchmark. Protein Engineering, Design and Selection, 2026.
+NbBench benchmark. Manuscript in preparation, 2026.
 ```
