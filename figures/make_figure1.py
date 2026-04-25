@@ -39,7 +39,7 @@ lm_low, lm_high = 0.815, 0.842
 fig, ax = plt.subplots(figsize=(7.2, 4.6))
 
 # Reference band for NbBench LM range
-ax.axhspan(lm_low, lm_high, color='#bbbbbb', alpha=0.25,
+ax.axhspan(lm_low, lm_high, color='#f4a8a8', alpha=0.35,
            label=f'NbBench 11 LMs range ({lm_low:.3f}–{lm_high:.3f})')
 ax.axhline(lm_high, color='#555555', linewidth=0.6, linestyle=':')
 ax.axhline(lm_low, color='#555555', linewidth=0.6, linestyle=':')
@@ -52,9 +52,9 @@ x_h3   = list(range(1, len(h3_val) + 1))
 ax.plot(x_full, full_val, marker='o', markersize=5, linewidth=1.8,
         color='#2b7bba', label='Full 52-feat pool (final: 16 features)')
 ax.plot(x_cdr,  cdr_val,  marker='s', markersize=5, linewidth=1.8,
-        color='#d95f02', label='CDR-only pool (Model 1: 13 features)')
+        color='#2ca02c', label='CDR-only pool (Model 1: 13 features)')
 ax.plot(x_h3,   h3_val,   marker='^', markersize=5, linewidth=1.8,
-        color='#7570b3', label='CDR-H3-only pool (final: 11 features)')
+        color='#d95f02', label='CDR-H3-only pool (final: 11 features)')
 
 # Annotate final test AUROC at end of each curve
 def annotate_final(x, y_val, y_test, color, text_offset=(8, 0)):
@@ -65,8 +65,8 @@ def annotate_final(x, y_val, y_test, color, text_offset=(8, 0)):
                 fontsize=8.5, color=color, fontweight='bold', va='center')
 
 annotate_final(len(full_val), full_val[-1], full_test, '#2b7bba', (8,  6))
-annotate_final(len(cdr_val),  cdr_val[-1],  cdr_test,  '#d95f02', (8, -8))
-annotate_final(len(h3_val),   h3_val[-1],   h3_test,   '#7570b3', (8,  0))
+annotate_final(len(cdr_val),  cdr_val[-1],  cdr_test,  '#2ca02c', (8, -8))
+annotate_final(len(h3_val),   h3_val[-1],   h3_test,   '#d95f02', (8,  0))
 
 ax.set_xlabel('Number of features in model')
 ax.set_ylabel('Validation AUROC (NbBench val, n=14,576)')
