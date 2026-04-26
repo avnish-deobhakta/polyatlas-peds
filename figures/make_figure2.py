@@ -1,7 +1,7 @@
 """Figure 2. Univariate feature importance on NbBench validation.
 
 Single-feature logistic regression (trained on NbBench train, evaluated on NbBench val)
-AUROC for the top 25 features. Features are colored by property category to reveal
+AUROC for the top 20 features. Features are colored by property category to reveal
 electrostatic dominance: the top 10 features are all charge-related.
 
 Data source: notebooks/03_feature_climb_full.ipynb cell 7 (univariate table).
@@ -19,7 +19,7 @@ plt.rcParams.update({
     'axes.spines.right': False,
 })
 
-# Top 25 univariate features by val AUROC, from 03 cell 7.
+# Top 20 univariate features by val AUROC, from 03 cell 7.
 # Categorization: charge (net charge, pI, absolute charge, +/- fractions, R, K);
 # hydrophobicity; aromatic (F+W+Y); length; other.
 feats = [
@@ -43,19 +43,14 @@ feats = [
     ('H2_hphob',       0.5887, 'hydrophob'),
     ('H2_len',         0.5851, 'length'),
     ('H2_hphob_frac',  0.5832, 'hydrophob'),
-    ('H1_pos_frac',    0.5781, 'charge'),
-    ('H3_len',         0.5692, 'length'),
-    ('H1_R',           0.5687, 'charge'),
-    ('H1_neg_frac',    0.5605, 'charge'),
-    ('full_hphob',     0.5528, 'hydrophob'),
 ]
 
 # Color map
 color_map = {
     'charge':     '#d62728',   # red
-    'hydrophob':  '#1f77b4',   # blue
+    'hydrophob':  '#2ca02c',   # green (matches manuscript embedded figure)
     'aromatic':   '#9467bd',   # purple
-    'length':     '#2ca02c',   # green
+    'length':     '#8c564b',   # brown (matches manuscript embedded figure)
     'other':      '#7f7f7f',   # gray
 }
 
@@ -78,7 +73,7 @@ ax.set_yticks(y_pos)
 ax.set_yticklabels(names, fontsize=9)
 ax.set_xlim(0.5, 0.82)
 ax.set_xlabel('Validation AUROC (single-feature logistic regression)')
-ax.set_title('Top 25 univariate feature rankings on NbBench PolyRx',
+ax.set_title('Top 20 univariate feature rankings on NbBench PolyRx',
              fontsize=11, pad=8)
 ax.grid(alpha=0.2, axis='x', linestyle='--')
 ax.axvline(0.5, color='black', linewidth=0.6, linestyle='-', alpha=0.5)
@@ -87,12 +82,12 @@ ax.axvline(0.5, color='black', linewidth=0.6, linestyle='-', alpha=0.5)
 # Top 10 features = indices 0-9 from the top (y_pos values 24..15)
 divider_y = y_pos[10] + 0.5  # between the 10th and 11th feature from top
 ax.axhline(divider_y, color='black', linestyle=':', linewidth=0.9, alpha=0.6)
-ax.text(0.805, divider_y + 5, 'top 10\nall charge-\nrelated',
+ax.text(0.805, divider_y + 4, 'top 10\nall charge-\nrelated',
         fontsize=9, va='center', ha='right', style='italic',
         color=color_map['charge'], fontweight='bold')
 
 # Legend
-legend_patches = [mpatches.Patch(color=color_map[k], label=k.replace('hphob', 'hydrophobicity').replace('charge', 'charge / electrostatic'))
+legend_patches = [mpatches.Patch(color=color_map[k], label=k.replace('hphob', 'hydrophob.').replace('charge', 'charge'))
                   for k in ['charge', 'hydrophob', 'length']]
 ax.legend(handles=legend_patches, loc='lower right', fontsize=9,
           frameon=True, framealpha=0.95, title='Property category', title_fontsize=9)
