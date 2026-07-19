@@ -69,7 +69,7 @@ If you use this code or data, please cite the manuscript (PEDS, under revision) 
 
 ```bibtex
 @software{polyatlas_peds,
-  author  = {Deobhakta, Avnish and Quiroz, Jos\u00e9 and Jaipalli, Sujai and Rosen, Richard B.},
+  author  = {Deobhakta, Avnish and Quiroz, Jose and Jaipalli, Sujai and Rosen, Richard B.},
   title   = {PolyAtlas: Hand-crafted physicochemical features for nanobody polyreactivity prediction},
   year    = {2026},
   publisher = {Zenodo},
