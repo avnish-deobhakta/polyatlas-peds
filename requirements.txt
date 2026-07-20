@@ -8,9 +8,14 @@ scipy>=1.11
 datasets>=2.14
 huggingface-hub>=0.17
 
-# Antibody-specific
-anarci>=1.3
+# Antibody-specific (CDR annotation for the external-validation notebook)
+# ANARCI is used via the abnumber wrapper; pin for reproducibility.
+anarci==1.3
+abnumber==0.3.4
 ablang>=0.3.1
+
+# Excel I/O (external-validation notebook reads/writes .xlsx)
+openpyxl>=3.1
 
 # Plotting (for figure regeneration scripts)
 matplotlib>=3.7
