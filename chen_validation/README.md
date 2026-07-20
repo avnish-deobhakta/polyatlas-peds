@@ -65,3 +65,16 @@ full ~246k library).
 - Chen 2024 antibodies are conventional human paired antibodies (VH + VL); we use
   the heavy-chain variable region (VH), consistent with Chen's finding that
   polyreactivity is governed primarily by the heavy-chain CDRs.
+
+## Reproducibility notes (v1.4.1)
+
+- The notebooks download the fitted Model 1 coefficients pinned to the `v1.4.1`
+  release tag (not the mutable `main` branch) and verify the file's SHA-256 checksum
+  before use. A local copy, `model1_coefficients.csv`, is also included in this
+  directory so the analysis can run fully offline.
+- The external-validation sample is 40,000 sequences per class (80,000 total),
+  drawn with `random_state=42`. For Figure 5, this sample is split once into
+  stratified 80/20 train/test partitions (`random_state=42`), and every Figure 5A,B
+  condition is evaluated on the common held-out test set (n=16,000).
+- `make_figure5.py` resolves its input JSON relative to its own location, so it runs
+  correctly from any working directory.
