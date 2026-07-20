@@ -35,7 +35,7 @@ Baseline positive-class rate (precision at recall 1.0): 0.539.
 | H1_hphob | CDR-H1 | Mean Kyte–Doolittle hydrophobicity |
 | H2_charge | CDR-H2 | Net charge at pH 7.4 |
 | H2_len | CDR-H2 | Length in amino acids |
-| H2_hphob_frac | CDR-H2 | Fraction of hydrophobic residues (A,V,I,L,M,F,W,Y,C) |
+| H2_hphob_frac | CDR-H2 | Fraction of hydrophobic residues (I,L,V,F,M,W,Y,C) |
 | H3_charge | CDR-H3 | Net charge at pH 7.4 |
 | H3_abs_charge | CDR-H3 | Absolute value of net charge |
 | H3_arom | CDR-H3 | Fraction of aromatic residues |
@@ -74,7 +74,7 @@ For a full turnkey inference pipeline including CDR extraction and feature compu
 
 ## Training details
 
-- **Training set:** NbBench PolyRx train split (n = 101,854)
+- **Training set:** NbBench PolyRx train split; the fitted model uses the retained rows with non-empty gap-removed CDR-H3 (n = 101,673 of 101,854)
 - **Feature selection:** Greedy forward selection on validation split (n = 14,576), CDR-only restriction, MIN_GAIN=0.0005, max 25 features (climb stopped at 13)
 - **Classifier:** `sklearn.linear_model.LogisticRegression` with `class_weight='balanced'`, `random_state=42`, default L2 regularization (C=1.0)
 - **Standardization:** `sklearn.preprocessing.StandardScaler` fit on training split only
