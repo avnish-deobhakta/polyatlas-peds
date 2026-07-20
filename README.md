@@ -38,12 +38,15 @@ The model **transfers across species**: applied with *zero retraining* to ~80,00
 
 ## Repository layout
 
+> **Note:** `figures_revision/` contains the final, current R1 figure set (Figures 1-5 and S1). The older `figures/` directory holds only the original Figures 1-4 and is retained for history.
+
+
 | Path | Contents |
 | :--- | :--- |
 | [`notebooks/`](notebooks) | Feature computation + Results §3.1–3.7 (NbBench) |
 | [`models/`](models) | `model1_coefficients.csv` (with training means / stds) |
-| [`figures/`](figures) | `make_figure1..4.py` — primary manuscript figures |
-| [`figures_revision/`](figures_revision) | All 6 figures as vector PDF + 350 dpi TIFF, all scripts |
+| [`figures_revision/`](figures_revision) | **Final R1 figure set** — all 6 figures (1-5 + S1) as vector PDF and 350 dpi TIFF, plus every generation script. Use this directory. |
+| [`figures/`](figures) | Original submission figures 1-4 (superseded by `figures_revision/`; retained for history) |
 | [`chen_validation/`](chen_validation) | External-validation analysis (§3.8, Figure 5) |
 | [`REPRODUCTION_GUIDE.docx`](REPRODUCTION_GUIDE.docx) | Step-by-step guide to every result and figure |
 
