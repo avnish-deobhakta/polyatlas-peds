@@ -12,11 +12,12 @@ A 13-feature CDR logistic regression trained only on camelid nanobodies
 
 | Evaluation | AUROC | AUPRC |
 |---|---|---|
-| Frozen NbBench Model 1 applied with zero retraining | 0.780 [0.777, 0.783] | 0.768 |
-| Same 13-feature family refit on human data | 0.892 | 0.896 |
+| Frozen Model 1, zero retraining (common test, n=16,000) | 0.785 [0.777, 0.791] | 0.774 |
+| &nbsp;&nbsp;(frozen model scored on all 79,999 annotated antibodies) | 0.781 [0.777, 0.783] | 0.768 |
+| Feature family refit within Chen (exploratory upper bound) | 0.892 | 0.896 |
 | Full 52-feature catalog refit (upper bound) | 0.975 | 0.975 |
-| Full-sequence net charge alone (1 feature) | 0.902 | — |
-| Full-sequence pI alone (1 feature) | 0.890 | — |
+| Full-sequence net charge alone (1 feature), common test | 0.903 | 0.892 |
+| Full-sequence pI alone (1 feature), common test | 0.892 | 0.886 |
 
 Ten of thirteen coefficient signs are conserved across species, including every
 charge-related feature.
@@ -30,8 +31,10 @@ charge-related feature.
 - `chen_harness.py` — standalone feature-computation code (identical to the main
   repo's feature definitions) plus a lightweight regex CDR extractor used for local
   validation. The notebook uses ANARCI for the canonical annotations.
-- `chen_anarci_results.json` — the numeric results (n=79,999), including the refit
-  coefficients and the NbBench comparison coefficients used for Figure 5B.
+- `chen_anarci_results.json` — the all-79,999 frozen/baseline results.
+- `chen_fig5_common_test.json` / `chen_fig5_merged.json` — the common held-out test set
+  results (n=16,000) that Figure 5A,B are drawn from, plus the coefficient values used
+  for the coefficient-conservation panel (Figure 5C). `make_figure5.py` reads the merged file.
 - `make_figure5.py` — generates Figure 5 (transfer performance + coefficient
   conservation) at 350 dpi TIFF, vector PDF, and PNG.
 - `make_figureS1.py` — generates Supplementary Figure S1 (feature distributions by
@@ -52,7 +55,7 @@ Raw sequence libraries are not redistributed here; obtain them from the source a
 
 Open `chen_anarci_validation.ipynb` in Google Colab (CPU runtime) and Run all.
 Total time ~10-15 minutes, most of it CDR annotation with ANARCI. The notebook
-writes `chen_annotated.csv` and `chen_results.json` on completion.
+writes `chen_annotated.csv` and three JSON files on completion: `chen_anarci_results.json` (all-data frozen and baseline results), `chen_fig5_common_test.json` (common held-out test results), and `chen_fig5_merged.json` (the combined file read by make_figure5.py).
 
 To use more of the library, raise `N_PER_CLASS` in the annotation cell (up to the
 full ~246k library).
@@ -66,12 +69,14 @@ full ~246k library).
   the heavy-chain variable region (VH), consistent with Chen's finding that
   polyreactivity is governed primarily by the heavy-chain CDRs.
 
-## Reproducibility notes (v1.4.1)
+## Reproducibility notes (v1.4.2)
 
-- The notebooks download the fitted Model 1 coefficients pinned to the `v1.4.1`
+- The notebooks download the fitted Model 1 coefficients pinned to the `v1.4.2`
   release tag (not the mutable `main` branch) and verify the file's SHA-256 checksum
   before use. A local copy, `model1_coefficients.csv`, is also included in this
-  directory so the analysis can run fully offline.
+  directory so the coefficients need not be downloaded; note that the Chen data itself
+  is still downloaded from its public source (or must be supplied locally), so the
+  notebook is not fully offline.
 - The external-validation sample is 40,000 sequences per class (80,000 total),
   drawn with `random_state=42`. For Figure 5, this sample is split once into
   stratified 80/20 train/test partitions (`random_state=42`), and every Figure 5A,B
