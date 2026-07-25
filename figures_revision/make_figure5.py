@@ -116,7 +116,7 @@ for f,xnb,ych in zip(feats,nb,ch):
 axC.set_xlim(-1.0,1.0); axC.set_ylim(-lim,lim)
 axC.set_xlabel('NbBench coefficient (camelid nanobody, frozen)')
 axC.set_ylabel('Chen refit coefficient (human antibody)')
-axC.set_title('(C) Charge coefficients conserved across species', loc='left', fontsize=11, weight='bold')
+axC.set_title('(C) Charge-coefficient signs are conserved across datasets', loc='left', fontsize=11, weight='bold')
 axC.text(1.03,0.99,'Feature key',transform=axC.transAxes,fontsize=9,weight='bold',va='top')
 for j,i in enumerate(order):
     f=feats[i]; same=(nb[i]>=0)==(ch[i]>=0); charge=is_charge(f)
