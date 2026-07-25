@@ -23,7 +23,7 @@
 
 On the [**NbBench PolyRx**](https://huggingface.co/datasets/ZYMScott/polyreaction) benchmark, a logistic regression with **13 hand-crafted physicochemical features** from the three CDRs (14 trainable parameters) achieves test **AUROC 0.834** and **AUPRC 0.836** — within the reported range of eleven pretrained protein and antibody language models on both metrics. Convergent analyses using a pre-specified literature feature set (AUROC 0.829) and leave-NbBench-out selection (0.817) indicate a benchmark-level property rather than benchmark-specific tuning. All ten top univariate predictors are **charge-related**.
 
-The model **transfers across species**: applied with *zero retraining* to ~80,000 human antibodies ([Chen et al. 2024](https://doi.org/10.5281/zenodo.14735846), Tessier lab), the frozen nanobody model reaches AUROC 0.780, rising to 0.892 when the feature family is recalibrated. Full-sequence charge alone reaches AUROC 0.902, and 10 of 13 coefficient signs — including *every* charge feature — are conserved across species.
+The frozen-model results **provide evidence of transfer across species and antibody formats**: applied with *zero retraining* to ~80,000 human antibodies ([Chen et al. 2024](https://doi.org/10.5281/zenodo.14735846), Tessier lab), the frozen nanobody model reaches AUROC 0.785 on a common held-out test set (0.781 when scored on all 79,999 annotated antibodies), rising to 0.892 when the feature family is recalibrated within Chen. Full-sequence charge alone reaches AUROC 0.903, and 10 of 13 coefficient signs — including *every* charge feature — are conserved across species.
 
 ## Key results
 
@@ -32,9 +32,10 @@ The model **transfers across species**: applied with *zero retraining* to ~80,00
 | Model 1 — 13-feature CDR model (NbBench test) | **0.834** | **0.836** |
 | Model 2 — literature features, no NbBench selection | 0.829 | 0.830 |
 | Model 3 — leave-NbBench-out selection | 0.817 | 0.817 |
-| **Cross-species transfer** — frozen model → human antibodies | 0.780 | 0.768 |
-| Cross-species — feature family refit on human data | 0.892 | 0.896 |
-| Full-sequence charge alone (1 feature) → human antibodies | 0.902 | 0.884 |
+| **Cross-species transfer (external validation)** — frozen model, common test n=16,000 | 0.785 | 0.774 |
+| &nbsp;&nbsp;&nbsp;&nbsp;(frozen model scored on all 79,999 annotated antibodies) | 0.781 | 0.768 |
+| Within-Chen recalibration — feature family refit (exploratory upper bound) | 0.892 | 0.896 |
+| Full-sequence charge alone (1 feature), common test | 0.903 | 0.892 |
 
 ## Repository layout
 
@@ -50,13 +51,13 @@ The model **transfers across species**: applied with *zero retraining* to ~80,00
 | [`chen_validation/`](chen_validation) | External-validation analysis (§3.8, Figure 5) |
 | [`REPRODUCTION_GUIDE.docx`](REPRODUCTION_GUIDE.docx) | Step-by-step guide to every result and figure |
 
-Inside [`chen_validation/`](chen_validation): a self-contained [Colab notebook](chen_validation/chen_anarci_validation.ipynb), the feature harness (`chen_harness.py`), numeric results (`chen_anarci_results.json`), and the Figure 5 / S1 scripts.
+Inside [`chen_validation/`](chen_validation): a self-contained [Colab notebook](chen_validation/chen_anarci_validation.ipynb), the feature harness (`chen_harness.py`), numeric results (`chen_anarci_results.json`, `chen_fig5_common_test.json`, and `chen_fig5_merged.json`), and the Figure 5 / S1 scripts.
 
 ## Reproducing the results
 
 **Primary benchmark** (§3.1–3.7, Tables, Figures 1–4) — run the notebooks in [`notebooks/`](notebooks) in order on the NbBench PolyRx data. All seeds are fixed (`random_state=42`, 500 bootstrap resamples).
 
-**External validation** (§3.8, Figure 5) — open [`chen_validation/chen_anarci_validation.ipynb`](chen_validation/chen_anarci_validation.ipynb) in **Google Colab** on a **CPU** runtime and *Run all* (~10–15 min). The notebook installs ANARCI via pip, downloads the Chen 2024 data and the frozen Model 1 coefficients, annotates CDRs (IMGT), and reproduces all three evaluation modes.
+**External validation** (§3.8, Figure 5) — open [`chen_validation/chen_anarci_validation.ipynb`](chen_validation/chen_anarci_validation.ipynb) in **Google Colab** on a **CPU** runtime and *Run all* (~15 min). This is the canonical notebook: it installs ANARCI via pip, downloads the Chen 2024 data and the checksum-verified Model 1 coefficients (pinned to the release tag), annotates CDRs (IMGT), and reproduces both the parenthetical all-79,999 frozen score and the common held-out test set (n=16,000) on which every Figure 5A,B bar is evaluated.
 
 See [`REPRODUCTION_GUIDE.docx`](REPRODUCTION_GUIDE.docx) for the full environment, feature definitions, and per-figure script map.
 
@@ -72,7 +73,7 @@ If you use this code or data, please cite the manuscript (PEDS, under revision) 
 
 ```bibtex
 @software{polyatlas_peds,
-  author  = {Deobhakta, Avnish and Quiroz, Jose and Jaipalli, Sujai and Rosen, Richard B.},
+  author  = {Deobhakta, Avnish and Quiroz, José and Jaipalli, Sujai and Rosen, Richard B.},
   title   = {PolyAtlas: Hand-crafted physicochemical features for nanobody polyreactivity prediction},
   year    = {2026},
   publisher = {Zenodo},
