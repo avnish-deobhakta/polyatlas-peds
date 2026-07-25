@@ -68,7 +68,7 @@ def score(feature_vector):
     return 1.0 / (1.0 + np.exp(-logit))
 ```
 
-For a full turnkey inference pipeline including CDR extraction and feature computation, rerun `notebooks/07_model1_exact_metrics.ipynb` — it builds and exposes the full pipeline.
+For scoring sequences with pre-extracted CDR-H1, CDR-H2, and CDR-H3 regions, see `notebooks/07_model1_exact_metrics.ipynb`. For an example of ANARCI-based CDR extraction followed by feature computation and scoring, see `chen_validation/chen_anarci_validation.ipynb`.
 
 ---
 
